@@ -1,1 +1,228 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MindBridge Pro – Mental Health Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dark">
+  <!-- Floating particles background -->
+  <canvas id="particles"></canvas>
+
+  <!-- Theme toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+    ☾
+  </button>
+
+  <!-- Main shell -->
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar glass">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        <span>MindBridge Pro</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-link active" data-section="overview">Overview</button>
+        <button class="nav-link" data-section="mood">Mood Tracker</button>
+        <button class="nav-link" data-section="chat">AI Therapy</button>
+        <button class="nav-link" data-section="forum">Community</button>
+        <button class="nav-link" data-section="appointments">Appointments</button>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="sidebar-caption">Your digital mental fitness studio.</p>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div>
+          <h1>Welcome back, Aurora</h1>
+          <p class="topbar-sub">Track your feelings, reflect, and grow a little every day.</p>
+        </div>
+        <div class="topbar-right">
+          <div class="user-pill glass">
+            <span class="avatar">A</span>
+            <div class="user-text">
+              <span class="user-name">Aurora Lane</span>
+              <span class="user-role">Member</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Sections -->
+      <section id="overview" class="section section-active">
+        <div class="grid grid-2">
+          <div class="card glass card-enter">
+            <h2>Today’s snapshot</h2>
+            <p class="muted">
+              A gentle view of how you have been doing lately – no judgment, only patterns.
+            </p>
+            <div class="stats-row">
+              <div class="stat-pill">
+                <span class="stat-label">Streak</span>
+                <span class="stat-value" id="streakValue">12 days</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Wellness score</span>
+                <span class="stat-value" id="scoreValue">82</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Avg mood</span>
+                <span class="stat-value" id="avgValue">7.3</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="card glass card-enter card-delay">
+            <h2>Gentle reminder</h2>
+            <p class="muted">
+              You do not need to fix everything today. One honest check‑in is enough.
+            </p>
+            <ul class="bullet-list">
+              <li>Pause for three slow breaths.</li>
+              <li>Name one emotion you are feeling.</li>
+              <li>Write one small intention for today.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card glass card-enter">
+            <h3>Mood trend (mock data)</h3>
+            <canvas id="moodChart" height="140"></canvas>
+          </div>
+          <div class="card glass card-enter card-delay">
+            <h3>Upcoming session</h3>
+            <p class="muted">Tomorrow · 7:00 PM – 7:50 PM with Dr. Aurora</p>
+            <button class="btn-primary">Review pre‑session notes</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mood" class="section">
+        <div class="grid grid-2">
+          <div class="card glass card-enter">
+            <h2>Daily mood check‑in</h2>
+            <p class="muted">Slide, choose an emoji, and add a short note.</p>
+            <div class="slider-row">
+              <input id="moodSlider" type="range" min="1" max="10" value="7" />
+              <span id="moodValue" class="slider-value">7</span>
+            </div>
+            <div class="emoji-row">
+              <button class="emoji-btn active">😞</button>
+              <button class="emoji-btn">😐</button>
+              <button class="emoji-btn">🙂</button>
+              <button class="emoji-btn">😊</button>
+              <button class="emoji-btn">🤩</button>
+            </div>
+            <textarea
+              id="moodNote"
+              placeholder="Optional reflection..."
+              class="text-input"
+            ></textarea>
+            <button id="saveMoodBtn" class="btn-primary">
+              Save mood
+            </button>
+            <p id="moodToast" class="toast hidden">Mood saved · streak +1 🎉</p>
+          </div>
+
+          <div class="card glass card-enter card-delay">
+            <h2>Recent reflections</h2>
+            <ul id="moodList" class="mood-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="chat" class="section">
+        <div class="grid grid-2">
+          <div class="card glass card-enter">
+            <h2>AI therapy chat</h2>
+            <div id="chatLog" class="chat-log">
+              <div class="bubble bubble-assistant">
+                Hi, I am your MindBridge guide. What is one feeling you notice right now?
+              </div>
+            </div>
+            <div class="chat-input-row">
+              <input
+                id="chatInput"
+                type="text"
+                placeholder="Type what is on your mind…"
+                class="text-input"
+              />
+              <button id="chatSendBtn" class="btn-primary btn-small">Send</button>
+            </div>
+            <p id="chatTyping" class="typing hidden">Typing…</p>
+          </div>
+
+          <div class="card glass card-enter card-delay">
+            <h2>How it works</h2>
+            <p class="muted">
+              The assistant encourages reflection instead of quick fixes, guiding you to name,
+              feel, and reframe emotions with gentle prompts.
+            </p>
+            <ul class="bullet-list">
+              <li>Ask about your feelings or a situation.</li>
+              <li>Get a short reflective prompt back.</li>
+              <li>Use it as a journaling companion, not a diagnosis.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="forum" class="section">
+        <div class="grid grid-2">
+          <div class="card glass card-enter">
+            <h2>Anonymous community</h2>
+            <textarea
+              id="forumInput"
+              placeholder="Share a thought or question without your name…"
+              class="text-input"
+            ></textarea>
+            <button id="forumPostBtn" class="btn-primary btn-small">Post</button>
+          </div>
+          <div class="card glass card-enter card-delay">
+            <h2>Live thread (local demo)</h2>
+            <ul id="forumList" class="forum-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="appointments" class="section">
+        <div class="grid grid-2">
+          <div class="card glass card-enter">
+            <h2>Schedule a 1:1 session</h2>
+            <p class="muted">Select a date and time that feels spacious for you.</p>
+            <label class="muted small">Choose date</label>
+            <input id="dateInput" type="date" class="text-input" />
+            <label class="muted small">Choose time</label>
+            <input id="timeInput" type="time" class="text-input" />
+            <button id="bookBtn" class="btn-primary">Book session</button>
+            <p id="bookToast" class="toast hidden">Session booked · calendar updated 🕊</p>
+          </div>
+          <div class="card glass card-enter card-delay">
+            <h2>Upcoming</h2>
+            <ul id="appointmentList" class="appointment-list"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
